@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Display</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid d-flex flex-wrap justify-content-center gap-3">
+    {% for i in words %}
+    <div class="card">
+      <a tabindex="0" class="card-body btn  btn-outline-light fs-1" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-toggle="focus" data-bs-placement="top" data-bs-content="({{ i['pronounciation'] }}) {{ i['back']  }}" href=/search/{{i['front']}}>
+            {{i["front"]}}
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+
+    })
+    let curr_card_index = 0
+    let cards=document.getElementsByClassName("card-body")
+    function display() {
+      cards[curr_card_index].className="card-body btn  btn-outline-light fs-1";
+      curr_card_index = Math.round(Math.random()*cards.length);
+      cards[curr_card_index].className="card-body btn  btn-outline-dark fs-1";
+    }
+  window.setInterval(display, 5000);
+</script>
+{% endblock %}

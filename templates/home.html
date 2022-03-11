@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row align-self-center">
+        <!--             <div class="col"> </div> -->
+        <div class="col text-center">
+            <!--             <div class="d-flex text-center justify-content-center"> -->
+            <br>
+            {% if current_card["offset"] > 50 -%}
+            <span id="pronounciation-hidden" class="invisible"> {{ current_card["pronounciation"] }} </span>
+            {% else %}
+            <span id="pronounciation"> {{ current_card["pronounciation"] }} </span>
+            {% endif %}
+            <br>
+            <span id="front" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Top popover"> {{ current_card["front"] }} </span>
+            <br>
+            {% if current_card["offset"] > 100 -%}
+            <span id="back-hidden" class="invisible"> {{ current_card["back"] }} </span>
+            {% else %}
+            <span id="back"> {{ current_card["back"] }} </span>
+            {% endif %}
+            <br>
+        </div>
+        <div class="row align-items-center text-center">
+            <br> <br> <br> <br> <br> <br> <br> <br>
+        </div>
+        <div class="row align-items-end text-center">
+            <div class="col">
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                  <a id="offset-1" class="btn btn-warning" style="text-align: center;" href="/next/{{ current_card["_id"]  }}/15">+15<br>[j]</a>
+                  <a id="offset-2" class="btn btn-primary" style="text-align: center;" href="/next/{{ current_card["_id"]  }}/200">+200<br>[k]</a>
+                  <a id="offset-3" class="btn btn-success" style="text-align: center;" href="/next/{{ current_card["_id"]  }}/200">+500<br>[l]</a>
+                  <a id="offset-4" class="btn btn-light" style="text-align: center;" href="/next/{{ current_card["_id"]  }}/100">+1000<br>[;]</a>
+                </div>
+                <br> <br>
+                <span class="badge bg-light text-dark align-bottom" id="note"> {{ note }}</span>
+                <span id="_id" class="invisible"> {{ current_card["_id"] }}</span>
+            </div>
+        </div>
+        <!--             </div> -->
+        <!--             <div class="col"> </div> -->
+    </div>
+</div>
+</div>
+
+  <script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+      
+    })
+//    document.getElementById("offset-1").onclick = function() {setOffset(15)};
+//    document.getElementById("offset-2").onclick = function() {setOffset(200)};
+//    document.getElementById("offset-3").onclick = function() {setOffset(500)};
+//    document.getElementById("offset-4").onclick = function() {setOffset(1000)};
+    document.addEventListener('keyup', (e) => {
+        switch(e.code) {
+            case "KeyJ":
+                setOffset(15);
+                break;
+            case "KeyK":
+                setOffset(200);
+                break;
+            case "KeyL":
+                setOffset(500);
+                break;
+            case "Semicolon":
+                setOffset(1000);
+                break;
+            case "Space":
+                setVisible();
+            default:
+                document.getElementById("note").innerHTML = "Invalid Key";
+        }
+    });
+
+    for (let word of document.getElementsByClassName("")) {
+      word.onclick = function() {getTranslation(word.innerText.split('\n')[1])}
+    }
+
+    function setOffset(offset) {
+      wordId = parseInt(document.getElementById("_id").innerHTML)
+      window.location.replace("/next/"+String(wordId)+"/"+String(offset));   
+      console.log("/next/"+String(wordId)+"/"+String(offset));   
+    }
+
+    function setVisible() {
+      for (let i of  document.getElementsByClassName("invisible")) {
+        i.className = "visible"
+      }
+    }
+
+    function getTranslation(word) {
+      window.location.replace("/search/"+String(word));   
+    }
+  </script>
+{% endblock %}
+

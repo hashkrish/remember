@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Search</title>
+{% endblock %}
+
+{% block body %}
+<h3 class="text-center gap-3 mx-auto">Search results</h3>
+<div class="d-flex flex-wrap justify-content-center gap-3">
+    {% for word in query_set %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ word['word'] }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ word['pronounciation'] }}</h6>
+            <p class="card-text">{{ ", ".join(word['meaning'])  }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<br>
+<br>
+
+{% if kquery_set  %}
+<h3 class="text-center gap-3 mx-auto">Kanji</h3><br>
+<div class="d-flex flex-wrap justify-content-center gap-3">
+    {% for word in kquery_set %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ word['word'] }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ word['onyomi'] }} {{ word['kunyomi'] }}</h6>
+            <p class="card-text">
+                {% for subword in word['meaning']  %}
+                <span>{{ subword  }}</span>,
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<br>
+<div style="text-align: center;">
+    <span class="badge bg-light text-dark" id="note"> {{ note }} </span>
+</div>
+</div>
+
+{% endblock %}
