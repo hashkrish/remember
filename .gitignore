@@ -1,0 +1,6 @@
+*.swp
+.vscode
+*.pyc
+mongotest.py
+remember.db
+sync.py
