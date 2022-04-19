@@ -6,19 +6,17 @@ import json
 
 # %%
 app = Flask(__name__)
-local = True
+local = False
 if local:
     client = MongoClient('mongodb://127.0.0.1:27017')
 else:
-    #  client = MongoClient("mongodb+srv://krishnan314:ln1vHOw7OBY8JdZ8@cluster0.xt6pr.mongodb.net/ja?retryWrites=true&w=majority")
     client = MongoClient(
-        "mongodb+srv://krishnan314:XkVRwWZVNqSbxhSQ@cluster0.xt6pr.mongodb.net/ja?retryWrites=true&w=majority"
+        "mongodb+srv://$MONGOUSER:$MONGOPWD@cluster0.xt6pr.mongodb.net/ja?retryWrites=true&w=majority"
     )
 
 #%%
 db = client['ja']
 col = db['mywords']
-hoteru = db['hoteru']
 
 #%%
 card_set = iter(list(col.find({}).sort([("seq", 1)]).limit(5)))
@@ -176,10 +174,8 @@ def display():
 
 if __name__ == '__main__':
     app.run(
-        #        host='192.168.29.165',  #HOME
-        host='0.0.0.0',  #HOME
-        #        host='10.42.240.17',  #IITM
-        port=80,
+        host='0.0.0.0',
+        port=5000,
         debug=True,
         #        threaded=True
     )
